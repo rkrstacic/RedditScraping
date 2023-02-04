@@ -5,9 +5,8 @@ from Services.RegexMatchService import RegexMatchService
 
 def main() -> None:
     # DatasetLoader.print_class_definition('RC_2018-07')
-    data = DatasetLoader.load(DatasetVersionEnum.Dataset_2018_07)
-    matches = RegexMatchService(data).match("hello")
-    print(matches)
+    DatasetLoader.load(DatasetVersionEnum.Dataset_2018_07)
+    print(RegexMatchService.match_with_url_after("video"))
 
 
 if __name__ == '__main__':

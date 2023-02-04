@@ -1,12 +1,16 @@
+from typing import List
 from Models.BaseComment import BaseComment
+from Models.Singleton import Singleton
 
 
-class Comment{name}(BaseComment):
+class Comment{name}(BaseComment, metaclass=Singleton):
 	{typing_string}
 
-	def __init__(self, comment: str):
-		super().__init__(comment)
-
-		self.comment_json = self.comment_json
+	def add_comment(self, comment: dict) -> None:
+		super().add_comment(comment)
 
 		{init_string}
+
+	def add_batch(self, batch: List[dict]) -> None:
+		for comment in batch:
+			self.add_comment(comment)

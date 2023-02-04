@@ -1,17 +1,25 @@
 import json
+from typing import List
 
 
 class BaseComment:
-	comment_json: dict
-	body: str
+	comment_json: List[dict] = []
+	body: List[str] = []
 
-	def __init__(self, comment: str):
-		self.comment_json = json.loads(comment)
+	def __init__(self):
+		pass
 
-	def __str__(self, indent=4):
+	def add_comment(self, comment: dict) -> None:
+		self.comment_json.append(comment)
+
+	def add_batch(self, comment: str) -> None:
+		raise NotImplementedError()
+
+	def __repr__(self, indent=4):
 		return json.dumps(self.comment_json, indent=indent, sort_keys=True)
 
-	def print_class_definition(self, name=None) -> None:
+	@staticmethod
+	def print_class_definition(data: dict, name=None) -> None:
 		if name is None:
 			name = "XYZ"
 
@@ -19,8 +27,8 @@ class BaseComment:
 			v = str(type(v))[8:-2]
 			return 'None' if v == 'NoneType' else v
 
-		typings = [f"{key}: {get_val_type(val)}" for key, val in sorted(self.comment_json.items())]
-		initializations = [f"self.{val} = self.comment_json['{val}']" for val in sorted(self.comment_json)]
+		typings = [f"{key}: List[{get_val_type(val)}] = []" for key, val in sorted(data.items())]
+		initializations = [f"self.{val}.append(self.comment_json[-1]['{val}'])" for val in sorted(data)]
 
 		with open("Models/class_template.txt") as f:
 			print("".join(f.readlines()).format(

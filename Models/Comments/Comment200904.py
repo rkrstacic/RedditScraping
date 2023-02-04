@@ -2,6 +2,7 @@ from Models.BaseComment import BaseComment
 
 
 class Comment200904(BaseComment):
+	""" Outdated """
 	id: str  # Unique
 
 	author: str

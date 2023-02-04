@@ -30,22 +30,28 @@ def main() -> None:
 ```
 Output:
 ```
+from typing import List
 from Models.BaseComment import BaseComment
+from Models.Singleton import Singleton
 
 
-class Comment201807(BaseComment):
-	archived: bool
-	author: str
-	...
+class Comment201807(BaseComment, metaclass=Singleton):
+    archived: List[bool] = []
+    author: List[str] = []
+    ...
 
-	def __init__(self, comment: str):
-		super().__init__(comment)
+    def __init__(self, comment: dict) -> None:
+        super().__init__(comment)
 
-		self.comment_json = self.comment_json
+        self.comment_json = self.comment_json
 
-		self.archived = self.comment_json['archived']
-		self.author = self.comment_json['author']
-		...
+        self.archived = self.comment_json['archived']
+        self.author = self.comment_json['author']
+        ...
+
+    def add_batch(self, batch: List[dict]) -> None:
+        for comment in batch:
+            self.add_comment(comment)
 
 ```
  
@@ -61,24 +67,11 @@ class DatasetVersionEnum:
 
 ## Current limitations
 
-The project is not optimized for big datasets. Recommended load limit=1000000. Loading 1 million rows takes ~30 seconds (depends on machine) and ~5Gb of RAM.
+The project is not optimized for big datasets. Recommended load limit=1000000. Loading 1 million rows takes ~30 seconds (depends on machine) and ~2.5Gb of RAM.
 
 Also, as of right now, this project is only compatible with datasets from: https://files.pushshift.io/reddit/comments/
 
 
 ## Possible improvements
 
-### Time and memory optimizations
-
-Few time and memory optimizations found
-1. Model optimization
-2. Dynamic loading
-
-#### Model optimization
-By analyzing the current approach it seems that a lot of memory and time is put into loading the individual models.
-Instead of each row being its own instance of Model and storing an array of Models that have one variable per property,
-there should be a singular instance of the Model that stores one array per property. A row is then fetched by accessing
-All arrays in the model with the same index.
-
-#### Dynamic loading and unloading
-Depending on the use case, it may not be necessary to keep the old data in the memory
+Dynamic loading and unloading (depending on the use case, it may not be necessary to keep the old data in the memory)
