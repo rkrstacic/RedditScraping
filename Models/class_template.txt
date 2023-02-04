@@ -1,0 +1,12 @@
+from Models.BaseComment import BaseComment
+
+
+class Comment{name}(BaseComment):
+	{typing_string}
+
+	def __init__(self, comment: str):
+		super().__init__(comment)
+
+		self.comment_json = self.comment_json
+
+		{init_string}

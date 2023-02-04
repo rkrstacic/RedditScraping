@@ -9,4 +9,3 @@ class CommentCollection(Collection):
 
 	def get_raw_comments(self) -> List[str]:
 		return [comment.body for comment in self.data]
-

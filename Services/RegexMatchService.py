@@ -18,7 +18,7 @@ class RegexMatchService:
 		matches = re.findall(string_regex_pattern, text_collection)
 		return Collection(matches)
 
-	def match_with_url_after(self, string: str, *, scope=50):
+	def match_with_url_after(self, string: str, *, scope=50) -> Collection:
 		url_regex_pattern = r"[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b[-a-zA-Z0-9()@:%_\+.~#?&//=]*"
 		string_regex_pattern = self.__find_matches_with_context(string, scope)
 
