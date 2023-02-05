@@ -18,6 +18,9 @@ class DatasetLoader:
 			last_update_time = time.time()
 			for i in range(int(nrow / batch_size)):
 				batch = json.loads("[" + ",".join(f.readlines(1000 * batch_size)) + "]")
+				if not batch:
+					break
+
 				data.add_batch(batch)
 
 				if debug and time.time() - last_update_time > update_rate:
